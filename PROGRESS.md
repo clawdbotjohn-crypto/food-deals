@@ -1,0 +1,58 @@
+# Food Deals — Progress
+
+**Created:** 2026-03-14
+**Status:** MVP Build
+**Live URL:** TBD (deploy to Azure SWA or Supabase-hosted)
+**Repo:** local at projects/food-deals/
+
+## Vision
+
+Two-part food deals finder:
+1. **Weekly Recurring Deals** — Curated database of local restaurant specials organized by day of week (Taco Tuesday $2, Half-price sushi Wednesday, etc.) for the Redmond/Bellevue/Seattle area
+2. **Too Good To Go Integration** — Surface best TGTG surplus food deals nearby, detect scheduling patterns so users can claim early, highlight cheapest/most-discounted items
+
+## MVP Scope (Session 1 Target)
+
+Build a working web app that users can visit and immediately see today's food deals.
+
+### P0 — Must Have for MVP
+- [ ] React + Vite web app with Tailwind CSS
+- [ ] Day-of-week tabbed interface (Mon-Sun) showing deals for each day
+- [ ] Supabase backend with `deals` table (name, restaurant, description, price, regular_price, day_of_week, category, location, source_url)
+- [ ] Seed data: research and populate 20-30 real recurring deals in Redmond/Bellevue/Eastside area
+- [ ] Location/area display (start with Eastside Seattle, hardcoded)
+- [ ] Deploy to Azure Static Web Apps
+- [ ] Mobile-friendly responsive design
+
+### P1 — After MVP
+- [ ] Too Good To Go API/scraping integration — pull nearby surplus deals, show alongside recurring deals
+- [ ] TGTG schedule pattern detection (which stores post when, price trends)
+- [ ] User location input (zip code or city) to filter deals
+- [ ] Deal submission form (users can submit deals they know about)
+- [ ] Price alerts / daily digest notification
+- [ ] Search and filter by cuisine type, price range
+
+### P2 — Future
+- [ ] Admin panel for deal management
+- [ ] Deal verification/voting (confirm still active)
+- [ ] Map view of deals
+- [ ] Multi-city expansion
+
+## Core Flows
+1. Open app → see today's deals immediately
+2. Switch between days of week → see that day's deals
+3. View deal details (restaurant, price, times, location)
+4. See TGTG surplus deals section (P1)
+5. Submit a new deal (P1)
+
+## Tech Stack
+- **Frontend:** React + Vite + Tailwind CSS + TypeScript
+- **Backend:** Supabase (shared project `uyqhmcjoddmocgybbyib` — use `food_deals` schema or prefixed tables)
+- **Hosting:** Azure Static Web Apps
+- **Data:** Seed with web-researched local deals, later add TGTG API
+
+## Log
+
+### 2026-03-14
+- Project initialized
+- MVP-first approach (skip full planning, build working app in session 1)
