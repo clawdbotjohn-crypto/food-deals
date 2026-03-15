@@ -2,7 +2,8 @@
 
 **Created:** 2026-03-14
 **Status:** MVP Build
-**Live URL:** TBD (deploy to Azure SWA or Supabase-hosted)
+**Live URL:** https://salmon-forest-04b26e91e.1.azurestaticapps.net
+**GitHub:** https://github.com/clawdbotjohn-crypto/food-deals
 **Repo:** local at projects/food-deals/
 
 ## Vision
@@ -16,13 +17,13 @@ Two-part food deals finder:
 Build a working web app that users can visit and immediately see today's food deals.
 
 ### P0 — Must Have for MVP
-- [ ] React + Vite web app with Tailwind CSS
-- [ ] Day-of-week tabbed interface (Mon-Sun) showing deals for each day
-- [ ] Supabase backend with `deals` table (name, restaurant, description, price, regular_price, day_of_week, category, location, source_url)
-- [ ] Seed data: research and populate 20-30 real recurring deals in Redmond/Bellevue/Eastside area
-- [ ] Location/area display (start with Eastside Seattle, hardcoded)
-- [ ] Deploy to Azure Static Web Apps
-- [ ] Mobile-friendly responsive design
+- [x] React + Vite web app with Tailwind CSS
+- [x] Day-of-week tabbed interface (Mon-Sun) showing deals for each day
+- [x] Supabase backend with `food_deals` table
+- [x] Seed data: 30 real recurring deals in Redmond/Bellevue/Eastside area
+- [x] Location/area display (Eastside Seattle)
+- [x] Deploy to Azure Static Web Apps
+- [x] Mobile-friendly responsive design
 
 ### P1 — After MVP
 - [ ] Too Good To Go API/scraping integration — pull nearby surplus deals, show alongside recurring deals
@@ -56,3 +57,9 @@ Build a working web app that users can visit and immediately see today's food de
 ### 2026-03-14
 - Project initialized
 - MVP-first approach (skip full planning, build working app in session 1)
+- **MVP BUILD SESSION:**
+  - Supabase: Created `food_deals` + `food_tgtg_deals` tables with RLS
+  - Seeded 30 real deals across all 7 days (Wing Dome, Matador, Red Robin, Japonessa, etc.)
+  - React app built: day-of-week tabs, deal cards, TGTG placeholder, mobile-first
+  - Deployed to Azure SWA via GitHub Actions (ARM64 Pi couldn't run SWA CLI directly)
+  - Live at: https://salmon-forest-04b26e91e.1.azurestaticapps.net
