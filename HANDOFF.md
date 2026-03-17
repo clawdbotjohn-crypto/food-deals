@@ -27,6 +27,11 @@
 - GitHub Actions CI/CD: push to `master` branch auto-deploys
 - Resource group: `joinme` (shared with other projects)
 
+## Last Session: 2026-03-16 (QA Sweep)
+- All 3 testable core flows pass (load today's deals, switch days, view deal details)
+- TGTG and deal submission flows are P1 — not yet built, placeholders present
+- No bugs found, no code changes needed
+
 ## Next Steps (P1)
 - Too Good To Go API integration
 - User deal submission form
