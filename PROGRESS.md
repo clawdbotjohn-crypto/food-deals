@@ -25,10 +25,14 @@ Build a working web app that users can visit and immediately see today's food de
 - [x] Deploy to Azure Static Web Apps
 - [x] Mobile-friendly responsive design
 
+### P0 — John's Priorities (Mar 24)
+- [ ] **Geolocation + default city:** Use browser geolocation API to detect user's location. If denied/unavailable, default to Columbia SC (app is primarily for John's cousin). Currently hardcoded to Eastside Seattle — needs to be dynamic.
+- [ ] **Data accuracy audit:** Audit how deal data is sourced/seeded. Are the current 30 deals accurate and still active? Document the data pipeline. If deals are just manually seeded, note that. Assess how useful the current data actually is for a real user.
+- [ ] **Too Good To Go integration:** Research TGTG API/scraping options. Is there a public API? Unofficial libraries? What's the best approach to pull nearby surplus deals and display them? This likely needs investigation before implementation — do the research, document findings, then implement if feasible.
+- [ ] **App completeness / missing screens:** The app currently just has day tabs. Evaluate what's missing — homescreen? About page? Settings? Deal detail view? Navigation? Make the app feel complete, not like a single-page prototype.
+
 ### P1 — After MVP
-- [ ] Too Good To Go API/scraping integration — pull nearby surplus deals, show alongside recurring deals
 - [ ] TGTG schedule pattern detection (which stores post when, price trends)
-- [ ] User location input (zip code or city) to filter deals
 - [ ] Deal submission form (users can submit deals they know about)
 - [ ] Price alerts / daily digest notification
 - [ ] Search and filter by cuisine type, price range
