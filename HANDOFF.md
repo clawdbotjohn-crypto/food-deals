@@ -1,44 +1,29 @@
 # Food Deals — Handoff
 
-## Status: MVP COMPLETE ✅
+## Last Session: 2026-03-24
 
-**Live URL:** https://salmon-forest-04b26e91e.1.azurestaticapps.net
-**GitHub:** https://github.com/clawdbotjohn-crypto/food-deals
+### Done This Session
+- ✅ **Geolocation + city selector** — Browser geolocation → Nominatim → nearest city match, defaults to Columbia SC, city dropdown in header
+- ✅ **Columbia SC data** — 46 real deals seeded (Publico, D's Wings, Village Idiot, SakiTumi, etc.)
+- ✅ **Data accuracy audit** — docs/DATA-AUDIT.md, ~65-70% accuracy, found/fixed closed restaurants, wrong addresses
+- ✅ **Data quality fixes** — Removed Wing Dome Kirkland (closed), fixed Japonessa/Village Idiot/Publico addresses, removed impossible Spark Pizza Monday deal, added `last_verified_at` and `is_active` columns
+- ✅ **TGTG integration** — Research doc (docs/TGTG-RESEARCH.md), Python sync/setup scripts (scripts/), Supabase schema updates, frontend TGTGSection reads real data
+- ✅ **App completeness** — Bottom nav (Deals/Favorites/About), deal detail modal, favorites via localStorage, About page
+- ✅ **Search + filter** — Search bar + cuisine filter chips
+- ✅ **Map view** — Leaflet/OpenStreetMap with markers, list/map toggle
 
-## What Was Built (2026-03-14)
+### Blockers
+- **TGTG auth:** John needs to run `python3 projects/food-deals/scripts/tgtg_setup.py` to authenticate with a TGTG account before surplus food data flows
 
-### Supabase Backend
-- `food_deals` table with 30 real Eastside Seattle deals (all 7 days covered)
-- `food_tgtg_deals` table (placeholder for TGTG integration)
-- RLS enabled with public read access
-- Schema saved in `supabase/schema.sql`
-- Supabase project: `uyqhmcjoddmocgybbyib`
+### Next Session Priorities
+1. Fix the a11y issues found in QA review (DealDetail modal needs role="dialog", aria-modal, focus trap)
+2. TGTG schedule pattern detection (P1)
+3. Deal submission form (P1) 
+4. Price alerts / daily digest notification (P1)
+5. Admin panel for deal management (P2)
+6. Deal verification/voting system (P2)
 
-### React Frontend
-- React + Vite + TypeScript + Tailwind CSS
-- Day-of-week tabs (today selected by default)
-- Deal cards with restaurant, description, prices, savings %, cuisine tags, addresses
-- Loading skeletons, empty states
-- TGTG "Coming Soon" section
-- Mobile-first responsive design
-
-### Deployment
-- Azure Static Web Apps (Free tier, West US 2)
-- GitHub Actions CI/CD: push to `master` branch auto-deploys
-- Resource group: `joinme` (shared with other projects)
-
-## Last Session: 2026-03-16 (QA Sweep)
-- All 3 testable core flows pass (load today's deals, switch days, view deal details)
-- TGTG and deal submission flows are P1 — not yet built, placeholders present
-- No bugs found, no code changes needed
-
-## Next Steps (P1)
-- Too Good To Go API integration
-- User deal submission form
-- More deals research + ongoing curation
-- Search/filter by cuisine, price range
-- User location input
-
-## Deployment Notes
-- SWA CLI doesn't work on ARM64 (Pi) — use GitHub Actions
-- Future deploys: `cd app && npm run build` then push `dist/` to GitHub
+### Build Status
+- ✅ `npm run build` passes (chunk size warning from Leaflet, non-blocking)
+- All pushed to GitHub, auto-deploying via GitHub Actions
+- Live at: https://salmon-forest-04b26e91e.1.azurestaticapps.net
