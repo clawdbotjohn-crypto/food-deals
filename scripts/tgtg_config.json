@@ -1,0 +1,6 @@
+{
+  "locations": [
+    {"name": "Eastside Seattle", "lat": 47.6740, "lng": -122.1215, "radius": 15},
+    {"name": "Columbia SC", "lat": 34.0007, "lng": -81.0348, "radius": 15}
+  ]
+}

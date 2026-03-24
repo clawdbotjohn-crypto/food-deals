@@ -26,10 +26,10 @@ Build a working web app that users can visit and immediately see today's food de
 - [x] Mobile-friendly responsive design
 
 ### P0 — John's Priorities (Mar 24)
-- [ ] **Geolocation + default city:** Use browser geolocation API to detect user's location. If denied/unavailable, default to Columbia SC (app is primarily for John's cousin). Currently hardcoded to Eastside Seattle — needs to be dynamic.
-- [ ] **Data accuracy audit:** Audit how deal data is sourced/seeded. Are the current 30 deals accurate and still active? Document the data pipeline. If deals are just manually seeded, note that. Assess how useful the current data actually is for a real user.
-- [ ] **Too Good To Go integration:** Research TGTG API/scraping options. Is there a public API? Unofficial libraries? What's the best approach to pull nearby surplus deals and display them? This likely needs investigation before implementation — do the research, document findings, then implement if feasible.
-- [ ] **App completeness / missing screens:** The app currently just has day tabs. Evaluate what's missing — homescreen? About page? Settings? Deal detail view? Navigation? Make the app feel complete, not like a single-page prototype.
+- [x] **Geolocation + default city:** Browser geolocation → Nominatim reverse geocoding → nearest city match. Defaults to Columbia SC. City selector dropdown in header. 46 Columbia SC deals seeded. (2026-03-24)
+- [x] **Data accuracy audit:** Full audit documented in `docs/DATA-AUDIT.md`. ~65-70% accuracy. Found 5 Wing Dome deals for closed location, wrong addresses for Japonessa/Village Idiot/Publico, Spark Pizza Monday deal impossible (closed Mondays). Recommendations logged. (2026-03-24)
+- [x] **Too Good To Go integration:** Research complete (docs/TGTG-RESEARCH.md). Built tgtg_sync.py + tgtg_setup.py scripts, added city/store_id/category/cover_image/rating columns to tgtg_deals table, updated TGTGSection frontend to show real data. **Blocker:** John needs to run tgtg_setup.py to authenticate with a TGTG account before data flows. (2026-03-24)
+- [x] **App completeness / missing screens:** Added bottom navigation (Deals/Favorites/About), deal detail view with map link + share, favorites with localStorage persistence, About page with disclaimer. App feels complete. (2026-03-24)
 
 ### P1 — After MVP
 - [ ] TGTG schedule pattern detection (which stores post when, price trends)

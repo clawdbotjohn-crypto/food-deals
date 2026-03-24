@@ -23,25 +23,57 @@ function calcSavings(deal: number | null, regular: number | null): number | null
   return Math.round(((regular - deal) / regular) * 100);
 }
 
-export default function DealCard({ deal }: { deal: FoodDeal }) {
+interface DealCardProps {
+  deal: FoodDeal;
+  isFavorite?: boolean;
+  onToggleFavorite?: () => void;
+  onSelect?: () => void;
+}
+
+export default function DealCard({ deal, isFavorite, onToggleFavorite, onSelect }: DealCardProps) {
   const savings = calcSavings(deal.deal_price, deal.regular_price);
 
   return (
-    <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-100 flex flex-col">
+    <div
+      className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-100 flex flex-col cursor-pointer active:scale-[0.98] transition-transform"
+      onClick={onSelect}
+    >
       {/* Top accent bar */}
       <div className="h-1.5 bg-gradient-to-r from-orange-400 via-red-400 to-amber-400" />
 
       <div className="p-5 flex flex-col flex-1">
-        {/* Restaurant name + cuisine tag */}
+        {/* Restaurant name + cuisine tag + heart */}
         <div className="flex items-start justify-between gap-2 mb-3">
-          <h3 className="text-lg font-bold text-gray-900 leading-tight">
+          <h3 className="text-lg font-bold text-gray-900 leading-tight flex-1">
             {deal.restaurant_name}
           </h3>
-          {deal.cuisine_type && (
-            <span className={`flex-shrink-0 px-2.5 py-0.5 rounded-full text-xs font-medium ${getCuisineColor(deal.cuisine_type)}`}>
-              {deal.cuisine_type}
-            </span>
-          )}
+          <div className="flex items-center gap-1.5 flex-shrink-0">
+            {deal.cuisine_type && (
+              <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${getCuisineColor(deal.cuisine_type)}`}>
+                {deal.cuisine_type}
+              </span>
+            )}
+            {onToggleFavorite && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onToggleFavorite();
+                }}
+                className="p-1 rounded-full hover:bg-gray-100 transition-colors"
+                aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+              >
+                <svg
+                  className={`w-5 h-5 transition-colors ${isFavorite ? 'text-red-500' : 'text-gray-300 hover:text-gray-400'}`}
+                  fill={isFavorite ? 'currentColor' : 'none'}
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                </svg>
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Deal description */}
@@ -70,24 +102,9 @@ export default function DealCard({ deal }: { deal: FoodDeal }) {
 
         {/* Location */}
         {(deal.location_area || deal.address) && (
-          <p className="text-xs text-gray-400 mb-3">
+          <p className="text-xs text-gray-400">
             📍 {deal.address || deal.location_area}
           </p>
-        )}
-
-        {/* View Details link */}
-        {deal.source_url && (
-          <a
-            href={deal.source_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-sm font-medium text-orange-500 hover:text-orange-600 transition-colors mt-auto"
-          >
-            View Details
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
-          </a>
         )}
       </div>
     </div>
