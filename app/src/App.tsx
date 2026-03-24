@@ -16,6 +16,9 @@ import type { NavTab } from './components/BottomNav';
 import DealDetail from './components/DealDetail';
 import FavoritesView from './components/FavoritesView';
 import AboutView from './components/AboutView';
+import ViewToggle from './components/ViewToggle';
+import type { ViewMode } from './components/ViewToggle';
+import MapView from './components/MapView';
 
 function App() {
   const [selectedDay, setSelectedDay] = useState(new Date().getDay());
@@ -28,6 +31,7 @@ function App() {
   const [selectedDeal, setSelectedDeal] = useState<FoodDeal | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCuisine, setSelectedCuisine] = useState('All');
+  const [viewMode, setViewMode] = useState<ViewMode>('grid');
 
   const { favorites, isFavorite, toggleFavorite } = useFavorites();
 
@@ -148,7 +152,12 @@ function App() {
 
           {/* Search & Filters */}
           <div className="px-4 space-y-3 mb-4">
-            <SearchBar value={searchQuery} onChange={setSearchQuery} />
+            <div className="flex items-center gap-2">
+              <div className="flex-1">
+                <SearchBar value={searchQuery} onChange={setSearchQuery} />
+              </div>
+              <ViewToggle mode={viewMode} onChange={setViewMode} />
+            </div>
             <CuisineFilter
               cuisines={availableCuisines}
               selected={selectedCuisine}
@@ -161,7 +170,7 @@ function App() {
             )}
           </div>
 
-          {/* Deal Cards */}
+          {/* Deal Cards / Map */}
           <main className="px-4 pb-4">
             {loading ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -171,6 +180,12 @@ function App() {
               </div>
             ) : filteredDeals.length === 0 ? (
               <EmptyState day={selectedDay} />
+            ) : viewMode === 'map' ? (
+              <MapView
+                deals={filteredDeals}
+                selectedCity={selectedCity}
+                onSelectDeal={setSelectedDeal}
+              />
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filteredDeals.map((deal) => (

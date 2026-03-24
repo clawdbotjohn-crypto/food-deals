@@ -40,7 +40,7 @@ Build a working web app that users can visit and immediately see today's food de
 ### P2 — Future
 - [ ] Admin panel for deal management
 - [ ] Deal verification/voting (confirm still active)
-- [ ] Map view of deals
+- [x] Map view of deals (Leaflet/OpenStreetMap, list/map toggle, markers with popups, 2026-03-24)
 - [ ] Multi-city expansion
 
 ## Core Flows
