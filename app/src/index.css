@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 @keyframes fade-in {
   from { opacity: 0; }
   to { opacity: 1; }

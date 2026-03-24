@@ -4,6 +4,8 @@ import { detectUserCity, DEFAULT_CITY } from './lib/geolocation';
 import type { FoodDeal } from './types';
 import { useFavorites } from './hooks/useFavorites';
 import DayTabs from './components/DayTabs';
+import SearchBar from './components/SearchBar';
+import CuisineFilter from './components/CuisineFilter';
 import DealCard from './components/DealCard';
 import SkeletonCard from './components/SkeletonCard';
 import EmptyState from './components/EmptyState';
@@ -24,8 +26,32 @@ function App() {
   const [cityLoading, setCityLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<NavTab>('deals');
   const [selectedDeal, setSelectedDeal] = useState<FoodDeal | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCuisine, setSelectedCuisine] = useState('All');
 
   const { favorites, isFavorite, toggleFavorite } = useFavorites();
+
+  // Reset search/cuisine when day or city changes
+  useEffect(() => {
+    setSearchQuery('');
+    setSelectedCuisine('All');
+  }, [selectedDay, selectedCity]);
+
+  // Derived: unique cuisines from current deals
+  const availableCuisines = [...new Set(
+    deals.map(d => d.cuisine_type).filter((c): c is string => !!c)
+  )].sort();
+
+  // Derived: filtered deals
+  const filteredDeals = deals.filter(deal => {
+    const q = searchQuery.toLowerCase();
+    const matchesSearch = !q ||
+      deal.restaurant_name.toLowerCase().includes(q) ||
+      (deal.deal_description && deal.deal_description.toLowerCase().includes(q));
+    const matchesCuisine = selectedCuisine === 'All' ||
+      deal.cuisine_type === selectedCuisine;
+    return matchesSearch && matchesCuisine;
+  });
 
   // Fetch available cities on mount + detect user location
   useEffect(() => {
@@ -120,6 +146,21 @@ function App() {
             <DayTabs selectedDay={selectedDay} onSelectDay={setSelectedDay} />
           </nav>
 
+          {/* Search & Filters */}
+          <div className="px-4 space-y-3 mb-4">
+            <SearchBar value={searchQuery} onChange={setSearchQuery} />
+            <CuisineFilter
+              cuisines={availableCuisines}
+              selected={selectedCuisine}
+              onSelect={setSelectedCuisine}
+            />
+            {!loading && (
+              <p className="text-xs text-gray-500 font-medium">
+                {filteredDeals.length} {filteredDeals.length === 1 ? 'deal' : 'deals'}
+              </p>
+            )}
+          </div>
+
           {/* Deal Cards */}
           <main className="px-4 pb-4">
             {loading ? (
@@ -128,11 +169,11 @@ function App() {
                   <SkeletonCard key={i} />
                 ))}
               </div>
-            ) : deals.length === 0 ? (
+            ) : filteredDeals.length === 0 ? (
               <EmptyState day={selectedDay} />
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {deals.map((deal) => (
+                {filteredDeals.map((deal) => (
                   <DealCard
                     key={deal.id}
                     deal={deal}

@@ -35,7 +35,7 @@ Build a working web app that users can visit and immediately see today's food de
 - [ ] TGTG schedule pattern detection (which stores post when, price trends)
 - [ ] Deal submission form (users can submit deals they know about)
 - [ ] Price alerts / daily digest notification
-- [ ] Search and filter by cuisine type, price range
+- [x] Search and filter by cuisine type, price range (search bar + cuisine chips implemented, 2026-03-24)
 
 ### P2 — Future
 - [ ] Admin panel for deal management
@@ -57,6 +57,22 @@ Build a working web app that users can visit and immediately see today's food de
 - **Data:** Seed with web-researched local deals, later add TGTG API
 
 ## Log
+
+### Discovered — 2026-03-24
+- [ ] **Accessibility: DealDetail modal** — needs `role="dialog"`, `aria-modal="true"`, `aria-label` on close button, focus trap
+- [ ] **Accessibility: TGTG cards** — have hover effect but no `role="button"`, no tabIndex, no keyboard handler (display-only, minor)
+- [ ] **Geolocation city matching** — `.replace(' sc', '').replace(' wa', '')` is fragile/hardcoded, works for current cities but won't scale to multi-city
+
+### 2026-03-24
+- **Full session: All P0 tasks completed**
+  - Geolocation + city selector with Columbia SC default
+  - 46 Columbia SC deals seeded (real restaurants)
+  - Data accuracy audit — found/fixed 5 closed Wing Dome deals, wrong addresses, impossible Monday deal
+  - Added `last_verified_at` and `is_active` columns for data quality tracking
+  - TGTG integration: research doc, Python sync/setup scripts, frontend display, Supabase schema updates
+  - App completeness: bottom nav, deal detail view, favorites (localStorage), About page
+  - QA review: clean build, good types, only minor a11y issues logged above
+  - All pushed to GitHub, auto-deploying via GitHub Actions
 
 ### 2026-03-14
 - Project initialized
