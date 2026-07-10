@@ -1,6 +1,9 @@
+import { useRef, useEffect, useCallback } from 'react';
 import type { FoodDeal } from '../types';
 
 const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 interface DealDetailProps {
   deal: FoodDeal;
@@ -20,6 +23,55 @@ export default function DealDetail({ deal, isFavorite, onToggleFavorite, onClose
     ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(deal.address)}`
     : null;
 
+  const modalRef = useRef<HTMLDivElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
+
+  // Capture the element that triggered the modal and manage focus
+  useEffect(() => {
+    previousFocusRef.current = document.activeElement as HTMLElement | null;
+
+    // Focus the modal container
+    if (modalRef.current) {
+      modalRef.current.focus();
+    }
+
+    return () => {
+      // Return focus to trigger element on close
+      if (previousFocusRef.current && previousFocusRef.current.focus) {
+        previousFocusRef.current.focus();
+      }
+    };
+  }, []);
+
+  // Focus trap and Escape key handler
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      onClose();
+      return;
+    }
+
+    if (e.key === 'Tab' && modalRef.current) {
+      const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR);
+      if (focusableElements.length === 0) return;
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        }
+      } else {
+        if (document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      }
+    }
+  }, [onClose]);
+
   async function handleShare() {
     const text = `${deal.restaurant_name} — ${deal.deal_description}${deal.deal_price != null ? ` ($${deal.deal_price.toFixed(2)})` : ''}`;
     if (navigator.share) {
@@ -37,16 +89,25 @@ export default function DealDetail({ deal, isFavorite, onToggleFavorite, onClose
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/50 animate-fade-in" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/50 animate-fade-in" onClick={onClose} aria-hidden="true" />
 
       {/* Sheet */}
-      <div className="relative bg-white w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-t-3xl sm:rounded-2xl animate-slide-up">
+      <div
+        ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="deal-detail-title"
+        tabIndex={-1}
+        onKeyDown={handleKeyDown}
+        className="relative bg-white w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-t-3xl sm:rounded-2xl animate-slide-up outline-none"
+      >
         {/* Accent bar */}
         <div className="h-1.5 bg-gradient-to-r from-orange-400 via-red-400 to-amber-400 rounded-t-3xl sm:rounded-t-2xl" />
 
         {/* Close button */}
         <button
           onClick={onClose}
+          aria-label="Close"
           className="absolute top-4 right-4 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-colors"
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -56,7 +117,7 @@ export default function DealDetail({ deal, isFavorite, onToggleFavorite, onClose
 
         <div className="p-6">
           {/* Restaurant name */}
-          <h2 className="text-2xl font-extrabold text-gray-900 pr-8 mb-1">
+          <h2 id="deal-detail-title" className="text-2xl font-extrabold text-gray-900 pr-8 mb-1">
             {deal.restaurant_name}
           </h2>
 
