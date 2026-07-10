@@ -33,7 +33,7 @@ Build a working web app that users can visit and immediately see today's food de
 
 ### P1 — After MVP
 - [ ] TGTG schedule pattern detection (which stores post when, price trends)
-- [ ] Deal submission form (users can submit deals they know about)
+- [x] Deal submission form (users can submit deals they know about) — ✅ 2026-07-10: Full form with validation, Supabase insert, new "Submit" nav tab (PR #2, needs `submitted_deals` table migration)
 - [ ] Price alerts / daily digest notification
 - [x] Search and filter by cuisine type, price range (search bar + cuisine chips implemented, 2026-03-24)
 
@@ -59,7 +59,7 @@ Build a working web app that users can visit and immediately see today's food de
 ## Log
 
 ### Discovered — 2026-03-24
-- [ ] **Accessibility: DealDetail modal** — needs `role="dialog"`, `aria-modal="true"`, `aria-label` on close button, focus trap
+- [x] **Accessibility: DealDetail modal** — ✅ Fixed 2026-07-10: role="dialog", aria-modal, aria-labelledby, focus trap, escape key close, aria-label on close button (PR #1)
 - [ ] **Accessibility: TGTG cards** — have hover effect but no `role="button"`, no tabIndex, no keyboard handler (display-only, minor)
 - [ ] **Geolocation city matching** — `.replace(' sc', '').replace(' wa', '')` is fragile/hardcoded, works for current cities but won't scale to multi-city
 

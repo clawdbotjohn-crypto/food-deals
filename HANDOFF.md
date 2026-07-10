@@ -1,29 +1,27 @@
 # Food Deals — Handoff
 
-## Last Session: 2026-03-24
+## Last Session: 2026-07-10
 
 ### Done This Session
-- ✅ **Geolocation + city selector** — Browser geolocation → Nominatim → nearest city match, defaults to Columbia SC, city dropdown in header
-- ✅ **Columbia SC data** — 46 real deals seeded (Publico, D's Wings, Village Idiot, SakiTumi, etc.)
-- ✅ **Data accuracy audit** — docs/DATA-AUDIT.md, ~65-70% accuracy, found/fixed closed restaurants, wrong addresses
-- ✅ **Data quality fixes** — Removed Wing Dome Kirkland (closed), fixed Japonessa/Village Idiot/Publico addresses, removed impossible Spark Pizza Monday deal, added `last_verified_at` and `is_active` columns
-- ✅ **TGTG integration** — Research doc (docs/TGTG-RESEARCH.md), Python sync/setup scripts (scripts/), Supabase schema updates, frontend TGTGSection reads real data
-- ✅ **App completeness** — Bottom nav (Deals/Favorites/About), deal detail modal, favorites via localStorage, About page
-- ✅ **Search + filter** — Search bar + cuisine filter chips
-- ✅ **Map view** — Leaflet/OpenStreetMap with markers, list/map toggle
+- ✅ **DealDetail modal accessibility** — role="dialog", aria-modal, focus trap, escape key, aria-labelledby (PR #1)
+- ✅ **Deal submission form** — New SubmitDealForm.tsx with full validation, Supabase integration, new "Submit" tab in BottomNav (PR #2)
+
+### PRs Open
+- **PR #1:** `session/food-deals-20260710-0124` — a11y fix for DealDetail modal
+- **PR #2:** `session/food-deals-submit-form-20260710` — deal submission form feature
 
 ### Blockers
-- **TGTG auth:** John needs to run `python3 projects/food-deals/scripts/tgtg_setup.py` to authenticate with a TGTG account before surplus food data flows
+- **TGTG auth:** John needs to run `python3 projects/food-deals/scripts/tgtg_setup.py` to authenticate
+- **Supabase migration:** PR #2 needs `submitted_deals` table created (SQL in PR description)
 
 ### Next Session Priorities
-1. Fix the a11y issues found in QA review (DealDetail modal needs role="dialog", aria-modal, focus trap)
-2. TGTG schedule pattern detection (P1)
-3. Deal submission form (P1) 
+1. Merge PRs #1 and #2 (John)
+2. Create `submitted_deals` Supabase table migration
+3. TGTG schedule pattern detection (P1 — blocked on auth)
 4. Price alerts / daily digest notification (P1)
-5. Admin panel for deal management (P2)
-6. Deal verification/voting system (P2)
+5. TGTG card accessibility (minor)
+6. Admin panel for deal management (P2)
 
 ### Build Status
-- ✅ `npm run build` passes (chunk size warning from Leaflet, non-blocking)
-- All pushed to GitHub, auto-deploying via GitHub Actions
+- ✅ `npx tsc --noEmit` passes cleanly
 - Live at: https://salmon-forest-04b26e91e.1.azurestaticapps.net
