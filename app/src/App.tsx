@@ -16,6 +16,7 @@ import type { NavTab } from './components/BottomNav';
 import DealDetail from './components/DealDetail';
 import FavoritesView from './components/FavoritesView';
 import AboutView from './components/AboutView';
+import SubmitDealForm from './components/SubmitDealForm';
 import ViewToggle from './components/ViewToggle';
 import type { ViewMode } from './components/ViewToggle';
 import MapView from './components/MapView';
@@ -142,6 +143,16 @@ function App() {
         </header>
       )}
 
+      {/* Submit header */}
+      {activeTab === 'submit' && (
+        <header className="pt-8 pb-2 px-4 text-center">
+          <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">
+            ➕ Submit a Deal
+          </h1>
+          <p className="text-gray-500 mt-1 text-sm">Know a great deal? Share it!</p>
+        </header>
+      )}
+
       {/* Tab Content */}
       {activeTab === 'deals' && (
         <>
@@ -216,6 +227,8 @@ function App() {
       )}
 
       {activeTab === 'about' && <AboutView />}
+
+      {activeTab === 'submit' && <SubmitDealForm />}
 
       {/* Bottom Navigation */}
       <BottomNav
