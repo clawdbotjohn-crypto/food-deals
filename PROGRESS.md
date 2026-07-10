@@ -58,6 +58,12 @@ Build a working web app that users can visit and immediately see today's food de
 
 ## Log
 
+### QA Findings — 2026-07-10
+- [ ] **UX: Deal card clickability inconsistent** — QA walkthrough found that tapping/clicking deal cards sometimes does nothing (no modal opens). Some deals have "View Details" external links, others don't. Deal detail modal exists but click targets may not cover the full card. Needs verification — could be a card-level click handler issue.
+- [x] **Day tabs** — ✅ PASS. Day-of-week tabs work correctly, Friday dot indicator accurate.
+- [x] **Deals display** — ✅ PASS. 6 Friday deals displayed with restaurant name, cuisine, description, price, discount %, address.
+- [x] **User walkthrough** — 3/5 overall. Core browse-by-day works, deal detail interaction inconsistent.
+
 ### Discovered — 2026-03-24
 - [x] **Accessibility: DealDetail modal** — ✅ Fixed 2026-07-10: role="dialog", aria-modal, aria-labelledby, focus trap, escape key close, aria-label on close button (PR #1)
 - [ ] **Accessibility: TGTG cards** — have hover effect but no `role="button"`, no tabIndex, no keyboard handler (display-only, minor)
