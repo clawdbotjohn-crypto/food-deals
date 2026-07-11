@@ -58,6 +58,11 @@ Build a working web app that users can visit and immediately see today's food de
 
 ## Log
 
+### QA Findings — 2026-07-11
+- [ ] **UX: Deal card clickability — no modal on click** — ⚠️ QA STILL BROKEN 2026-07-11 (2nd day). Deal cards are NOT clickable at all. Clicking any card does nothing — no modal, no expansion, no detail view. Only some cards (Spark Pizza, Masa Mexican, Zio Sal, BWW) have external "View Details" links. Cards display info inline only. Need: click handler on full card → opens DealDetail modal.
+- [x] **Day tabs** — ✅ RE-VERIFIED PASSING. Switching between days shows correct deals per day.
+- [x] **Walkthrough** — ✅ PASS. Day tabs, pricing, % OFF badges, cuisine tags, addresses all rendering correctly.
+
 ### QA Findings — 2026-07-10
 - [ ] **UX: Deal card clickability inconsistent** — QA walkthrough found that tapping/clicking deal cards sometimes does nothing (no modal opens). Some deals have "View Details" external links, others don't. Deal detail modal exists but click targets may not cover the full card. Needs verification — could be a card-level click handler issue.
 - [x] **Day tabs** — ✅ PASS. Day-of-week tabs work correctly, Friday dot indicator accurate.
