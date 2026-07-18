@@ -42,6 +42,7 @@ Build a working web app that users can visit and immediately see today's food de
 - [ ] Deal verification/voting (confirm still active)
 - [x] Map view of deals (Leaflet/OpenStreetMap, list/map toggle, markers with popups, 2026-03-24)
 - [ ] Multi-city expansion
+- [ ] TGTG card accessibility (role="button", tabIndex, keyboard handler)
 
 ## Core Flows
 1. Open app → see today's deals immediately
@@ -58,24 +59,13 @@ Build a working web app that users can visit and immediately see today's food de
 
 ## Log
 
-### QA Findings — 2026-07-12
-- [ ] **UX: Deal card clickability — no modal on click** — ⚠️ QA STILL BROKEN 2026-07-12 (3rd day). Cards have no click handler (cursor: auto, no onclick). Clicking anywhere on a card does nothing. Only some cards have "View Details" external links. Need: click handler on full card → opens DealDetail modal.
-- [x] **Day tabs** — ✅ RE-VERIFIED PASSING. Tabs switch correctly, today indicator works.
-
-### QA Findings — 2026-07-11
-- [ ] **UX: Deal card clickability — no modal on click** — ⚠️ QA STILL BROKEN 2026-07-11 (2nd day). Deal cards are NOT clickable at all. Clicking any card does nothing — no modal, no expansion, no detail view. Only some cards (Spark Pizza, Masa Mexican, Zio Sal, BWW) have external "View Details" links. Cards display info inline only. Need: click handler on full card → opens DealDetail modal.
-- [x] **Day tabs** — ✅ RE-VERIFIED PASSING. Switching between days shows correct deals per day.
-- [x] **Walkthrough** — ✅ PASS. Day tabs, pricing, % OFF badges, cuisine tags, addresses all rendering correctly.
-
-### QA Findings — 2026-07-10
-- [ ] **UX: Deal card clickability inconsistent** — QA walkthrough found that tapping/clicking deal cards sometimes does nothing (no modal opens). Some deals have "View Details" external links, others don't. Deal detail modal exists but click targets may not cover the full card. Needs verification — could be a card-level click handler issue.
-- [x] **Day tabs** — ✅ PASS. Day-of-week tabs work correctly, Friday dot indicator accurate.
-- [x] **Deals display** — ✅ PASS. 6 Friday deals displayed with restaurant name, cuisine, description, price, discount %, address.
-- [x] **User walkthrough** — 3/5 overall. Core browse-by-day works, deal detail interaction inconsistent.
+### QA Findings — 2026-07-10 to 2026-07-12
+- [x] **UX: Deal card clickability** — QA flagged 3 days in a row (Jul 10-12). **Root cause:** Stale deployment — root `/assets/` had old build without `onClick` handler. Source code (`DealCard.tsx`) already had `onClick={onSelect}` and `cursor-pointer` since Mar 24. **Fix (Jul 18):** Rebuilt from source, updated root assets to match `app/dist/`. PR opened. Deploy will fix.
+- [x] **Day tabs** — ✅ PASS (verified 3x)
+- [x] **Deals display** — ✅ PASS
 
 ### Discovered — 2026-03-24
 - [x] **Accessibility: DealDetail modal** — ✅ Fixed 2026-07-10: role="dialog", aria-modal, aria-labelledby, focus trap, escape key close, aria-label on close button (PR #1)
-- [ ] **Accessibility: TGTG cards** — have hover effect but no `role="button"`, no tabIndex, no keyboard handler (display-only, minor)
 - [ ] **Geolocation city matching** — `.replace(' sc', '').replace(' wa', '')` is fragile/hardcoded, works for current cities but won't scale to multi-city
 
 ### 2026-03-24
